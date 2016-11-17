@@ -26,8 +26,8 @@ dpkg-reconfigure locales
 echo "==========================="
 echo "Update Repository"
 echo "==========================="
-sudo apt-get update
-sudo apt-get dist-upgrade
+sudo apt-get update -y
+sudo apt-get dist-upgrade -y
 
 ##### Ferramentas Extras #####
 
