@@ -1,44 +1,55 @@
-########## Início do Script ##########
+##### Início do Script #####
 
-##### Dependências Odoo #####
+##### Este shell script foi criado com intuito de auxiliar #####
+##### na instalação do Odoo 10.0 e da Localizacao Brasileira. #####
 
-sudo apt-get install python-pip 
-sudo apt-get install libxml2-dev 
-sudo apt-get install libxslt-dev 
-sudo apt-get install libevent-dev 
-sudo apt-get install libsasl2-dev 
-sudo apt-get install libldap2-dev 
-sudo apt-get install libpq-dev 
-sudo apt-get install libjpeg-dev 
-sudo apt-get install nodejs 
-sudo apt-get install npm 
 
-##### Dependências da Localização Brasileira #####
+##### Instalando o Open SSH. Permitindo acesso remoto via Putty. #####
 
-sudo apt-get install python-libxml2 
-sudo apt-get install libxmlsec1-dev 
-sudo apt-get install python-openssl 
-sudo apt-get install python-cffi 
+echo "==========================="
+echo "Installing OpenSSh"
+echo "==========================="
+apt-get install openssh-server -y
 
-##### Dependências do WKHTMLTOX #####
+##### Definir configurações locais. #####
 
-sudo apt-get install zlib1g-dev
-sudo apt-get install fontconfig
-sudo apt-get install libfreetype6
-sudo apt-get install libx11-6
-sudo apt-get install libxext6
-sudo apt-get install libxrender1
-sudo apt-get install libjpeg-turbo8
+echo "==========================="
+echo "Local Settings"
+echo "==========================="
+export LANGUAGE=pt_BR.UTF-8
+export LANG=pt_BR.UTF-8
+locale-gen pt_BR pt_BR.UTF-8
+dpkg-reconfigure locales
+
+##### Atualiando a distribuição Ubuntu. #####
+
+echo "==========================="
+echo "Update Repository"
+echo "==========================="
+sudo apt-get update
+sudo apt-get dist-upgrade
 
 ##### Ferramentas Extras #####
 
-sudo apt-get install git
+sudo apt-get install git -y
 
 ##### Atualizar o Pip #####
 
 sudo pip install --upgrade pip
 
-##### Dependencias Pip #####
+##### Instalando Python e as libs necessarias para o odoo. #####
+
+echo "==========================="
+echo "Installing Python"
+echo "==========================="
+
+apt-get install python-dev python-yaml python-feedparser python-geoip python-imaging python-pybabel python-unicodecsv wkhtmltopdf libxml2-dev libxmlsec1-dev python-argparse python-Babel python-cups python-dateutil python-decorator python-docutils python-feedparser python-gdata python-gevent python-greenlet python-Jinja2 python-libxslt1 python-lxml python-Mako python-MarkupSafe python-mock python-openid python-passlib python-psutil python-psycopg2 python-pychart python-pydot python-pyparsing python-pyPdf python-ldap python-yaml python-reportlab python-requests python-simplejson python-six python-tz python-unittest2 python-vatnumber python-vobject python-webdav python-Werkzeug python-wsgiref python-xlwt python-zsi python-dev libpq-dev poppler-utils python-pdftools antiword -y
+apt-get install python-pip  -y
+apt-get install python-setuptools -y
+
+echo "==========================="
+echo "Installing Libs"
+echo "==========================="
 
 pip install Babel==1.3
 pip install Jinja2==2.7.3
@@ -90,28 +101,176 @@ pip install python-boleto
 pip install python-cnab
 pip install http://labs.libre-entreprise.org/frs/download.php/897/pyxmlsec-0.3.1.tar.gz
 
-##### Depêndencias do Linux #####
+##### Depêndencias do Linux. #####
 
 sudo apt-get install -y --no-install-recommends $(grep -v '^#' apt-requirements)
 
-##### Depêndencias do Python #####
+##### Gerar as Saídas Apropriadas para os Requerimentos. #####
 
-sudo pip install -r pip-requirements
+sudo pip freeze docutils==0.11
+sudo pip freeze Jinja2==2.7.2
+sudo pip freeze MarkupSafe==0.19
+sudo pip freeze Pygments==1.6
+sudo pip freeze Sphinx==1.2.2
 
-##### Depêndencias do Nodejs #####
+##### Depêndencias do Python. #####
+
+sudo pip freeze > requirements.txt
+sudo pip install -r requirements.txt
+
+##### Depêndencias do Nodejs. #####
 
 sudo npm install -g less
 
-##### Criando link para o nodejs #####
+##### Criando link para o nodejs. #####
 
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 
-##### Arquivo para geração de PDF e XMLs #####
+##### Dependências do WKHTMLTOX #####
 
+sudo apt-get install zlib1g-dev -y
+sudo apt-get install fontconfig -y
+sudo apt-get install libfreetype6 -y
+sudo apt-get install libx11-6 -y
+sudo apt-get install libxext6 -y
+sudo apt-get install libxrender1 -y
+sudo apt-get install libjpeg-turbo8 -y
+
+##### Instalando WKHTMLtoPDF, responsavel por geracao de #####
+##### arquivos PDF. #####
+
+echo "==========================="
+echo "Installing WKHTMLtoPDF"
+echo "==========================="
+cd /tmp
 wget http://download.gna.org/wkhtmltopdf/0.12/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb
-
-##### Execução do Arquivo Instalado #####
-
 sudo dpkg -i wkhtmltox-0.12.1_linux-trusty-amd64.deb
+cp /usr/local/bin/wkhtmltopdf /usr/bin
+cp /usr/local/bin/wkhtmltoimage /usr/bin
 
-########## Fim do Script ##########
+##### Dependências Odoo #####
+
+sudo apt-get install python-pip -y
+sudo apt-get install libxml2-dev -y
+sudo apt-get install libxslt-dev -y
+sudo apt-get install libevent-dev -y
+sudo apt-get install libsasl2-dev -y
+sudo apt-get install libldap2-dev -y
+sudo apt-get install libpq-dev -y
+sudo apt-get install libjpeg-dev -y
+sudo apt-get install nodejs -y
+sudo apt-get install npm -y
+
+##### Realizando o clone do odoo 10.0. #####
+
+echo "==========================="
+echo "Clonning odoo 10.0"
+echo "==========================="
+cd /opt/odoo/
+git clone https://github.com/odoo/odoo.git --branch 10.0
+
+##### Realizando o clone do arquivo de configuracao, #####
+##### esta com as configuracoes padrões. #####
+
+echo "==========================="
+echo "Config odoo File"
+echo "==========================="
+cd /etc/
+wget https://raw.githubusercontent.com/gabrielbr17/Others/master/odoo-server.conf -O odoo-server.conf
+chown odoo: /etc/odoo-server.conf
+chmod 640 /etc/odoo-server.conf
+
+##### Criando diretorio para Log da aplicacao. #####
+
+echo "==========================="
+echo "Log odoo File"
+echo "==========================="
+mkdir /var/log/odoo
+chown odoo:root /var/log/odoo
+
+##### Criando arquivo para inicializacao do odoo. #####
+
+echo "==========================="
+echo "Init odoo File"
+echo "==========================="
+cd /etc/init.d/
+wget https://raw.github.com/gabrielbr17/Others/master/odoo-server -O odoo-server
+chmod 755 /etc/init.d/odoo-server
+chown root: /etc/init.d/odoo-server
+
+##### Clonando repositorias da localizacao brasileira #####
+##### e as dependencias necessarias. #####
+
+echo "==========================="
+echo "Clonning Brazilian Repository"
+echo "==========================="
+sudo apt-get install python-libxml2 -y
+sudo apt-get install libxmlsec1-dev -y
+sudo apt-get install python-openssl -y
+sudo apt-get install python-cffi -y
+cd /opt/odoo
+mkdir localizacao
+cd localizacao
+git clone https://github.com/odoo-brazil/l10n-brazil.git --branch 10.0
+git clone https://github.com/odoo-brazil/account-fiscal-rule.git --branch 10.0
+git clone https://github.com/odoo-brazil/odoo-brazil-eletronic-documents.git --branch 10.0
+git clone https://github.com/OCA/server-tools --branch 10.0
+
+##### Instalando Geraldo reports, utilizado para relatorios. #####
+
+echo "==========================="
+echo "Installing Geraldo Reports"
+echo "==========================="
+cd /tmp
+git clone https://github.com/aricaldeira/geraldo --branch master
+cd geraldo
+python setup.py install
+
+##### Instalando PySped para poder utilizar NFe. #####
+
+echo "==========================="
+echo "Installing PySped"
+echo "==========================="
+cd /tmp
+wget http://labs.libre-entreprise.org/download.php/430/pyxmlsec-0.3.0.tar.gz
+tar xvzf pyxmlsec-0.3.0.tar.gz
+cd pyxmlsec-0.3.0
+python setup.py install
+cd /tmp
+git clone https://github.com/odoo-brazil/PySPED.git --branch 10.0
+cd PySPED
+python setup.py install
+
+##### Instalando pyxmlsec, necessario para o PySped. #####
+
+echo "==========================="
+echo "Installing pyxmlsec"
+echo "==========================="
+cd /tmp
+git clone https://github.com/aricaldeira/pyxmlsec --branch master
+cd pyxmlsec
+python setup.py install
+
+##### Clonando repositorias da Trust-Code. #####
+
+echo "==========================="
+echo "Clonning Brazilian Repository"
+echo "==========================="
+cd /opt/odoo
+git clone https://github.com/Trust-Code/trust-addons.git --branch 9.0
+cd trust-addons
+
+##### Alterando owner da pasta odoo. #####
+
+echo "==========================="
+echo "Change owner"
+echo "==========================="
+cd /opt/
+chown odoo: odoo -R
+
+##### Fim do Script. #####
+
+echo "==========================="
+echo "Finished"
+echo "==========================="
+
