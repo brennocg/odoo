@@ -166,7 +166,7 @@ sudo apt-get install npm -y
 echo "==========================="
 echo "Clonning odoo 10.0"
 echo "==========================="
-cd /opt/odoo/
+cd /opt/
 git clone https://github.com/odoo/odoo.git --branch 10.0
 
 ##### Realizando o clone do arquivo de configuracao, #####
@@ -211,9 +211,9 @@ sudo apt-get install python-cffi -y
 cd /opt/odoo
 mkdir localizacao
 cd localizacao
-git clone https://github.com/odoo-brazil/l10n-brazil.git --branch 10.0
-git clone https://github.com/odoo-brazil/account-fiscal-rule.git --branch 10.0
-git clone https://github.com/odoo-brazil/odoo-brazil-eletronic-documents.git --branch 10.0
+git clone https://github.com/odoo-brazil/l10n-brazil.git --branch 8.0
+git clone https://github.com/odoo-brazil/account-fiscal-rule.git --branch 8.0.2.0
+git clone https://github.com/odoo-brazil/odoo-brazil-eletronic-documents.git --branch 8.0
 git clone https://github.com/OCA/server-tools --branch 10.0
 
 ##### Instalando Geraldo reports, utilizado para relatorios. #####
