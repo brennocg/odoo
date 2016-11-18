@@ -176,7 +176,7 @@ echo "==========================="
 echo "Config odoo File"
 echo "==========================="
 cd /etc/
-wget https://raw.githubusercontent.com/gabrielbr17/Others/master/odoo-server.conf -O odoo-server.conf
+wget https://raw.githubusercontent.com/brennocg/odoo/master/odoo-server.conf -O odoo-server.conf
 chown odoo: /etc/odoo-server.conf
 chmod 640 /etc/odoo-server.conf
 
