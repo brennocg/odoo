@@ -21,14 +21,6 @@ export LANG=pt_BR.UTF-8
 locale-gen pt_BR pt_BR.UTF-8
 dpkg-reconfigure locales
 
-##### Atualiando a distribuição Ubuntu. #####
-
-echo "==========================="
-echo "Update Repository"
-echo "==========================="
-sudo apt-get update -y
-sudo apt-get dist-upgrade -y
-
 ##### Criando o usuário odoo que será o proprietário #####
 ##### da aplicação e sua respectiva pasta #####
 
