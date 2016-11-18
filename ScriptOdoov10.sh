@@ -281,6 +281,9 @@ echo "==========================="
 cd /opt/
 chown odoo: odoo -R
 
+##### Reiniciar a máquina. #####
+sudo reboot
+
 ##### Fim do Script. #####
 
 echo "==========================="
