@@ -29,9 +29,18 @@ echo "==========================="
 sudo apt-get update -y
 sudo apt-get dist-upgrade -y
 
+##### Criando o usuário odoo que será o proprietário #####
+##### da aplicação e sua respectiva pasta #####
+
+sudo adduser --system --home=/opt/odoo --group odoo
+
 ##### Ferramentas Extras #####
 
 sudo apt-get install git -y
+
+##### Instalando as bibliotecas Python necessárias para o odoo. #####
+
+sudo apt-get install python-dev python-yaml python-feedparser python-geoip python-imaging python-pybabel python-unicodecsv wkhtmltopdf libxml2-dev libxmlsec1-dev python-argparse python-Babel python-cups python-dateutil python-decorator python-docutils python-feedparser python-gdata python-gevent python-greenlet python-Jinja2 python-libxslt1 python-lxml python-Mako python-MarkupSafe python-mock python-openid python-passlib python-psutil python-psycopg2 python-pychart python-pydot python-pyparsing python-pyPdf python-ldap python-yaml python-reportlab python-requests python-simplejson python-six python-tz python-unittest2 python-vatnumber python-vobject python-webdav python-Werkzeug python-wsgiref python-xlwt python-zsi python-dev libpq-dev poppler-utils python-pdftools antiword
 
 ##### Atualizar o Pip #####
 
@@ -144,9 +153,9 @@ echo "Installing WKHTMLtoPDF"
 echo "==========================="
 cd /tmp
 wget http://download.gna.org/wkhtmltopdf/0.12/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb
-sudo dpkg -i wkhtmltox-0.12.1_linux-trusty-amd64.deb
 cp /usr/local/bin/wkhtmltopdf /usr/bin
 cp /usr/local/bin/wkhtmltoimage /usr/bin
+sudo dpkg -i wkhtmltox-0.12.1_linux-trusty-amd64.deb
 
 ##### Dependências Odoo #####
 
@@ -166,8 +175,10 @@ sudo apt-get install npm -y
 echo "==========================="
 echo "Clonning odoo 10.0"
 echo "==========================="
+sudo su - odoo -s /bin/bash
 cd /opt/
 git clone https://github.com/odoo/odoo.git --branch 10.0
+exit
 
 ##### Realizando o clone do arquivo de configuracao, #####
 ##### esta com as configuracoes padrões. #####
@@ -175,18 +186,19 @@ git clone https://github.com/odoo/odoo.git --branch 10.0
 echo "==========================="
 echo "Config odoo File"
 echo "==========================="
+sudo cp /opt/odoo/debian/odoo.conf /etc/odoo-server.conf
 cd /etc/
-wget https://raw.githubusercontent.com/brennocg/odoo/master/odoo-server.conf -O odoo-server.conf
-chown odoo: /etc/odoo-server.conf
-chmod 640 /etc/odoo-server.conf
+sudo wget https://raw.githubusercontent.com/brennocg/odoo/master/odoo-server.conf -O odoo-server.conf
+sudo chown odoo: /etc/odoo-server.conf
+sudo chmod 640 /etc/odoo-server.conf
 
 ##### Criando diretorio para Log da aplicacao. #####
 
 echo "==========================="
 echo "Log odoo File"
 echo "==========================="
-mkdir /var/log/odoo
-chown odoo:root /var/log/odoo
+sudo mkdir /var/log/odoo
+sudo chown odoo:root /var/log/odoo
 
 ##### Criando arquivo para inicializacao do odoo. #####
 
@@ -194,9 +206,9 @@ echo "==========================="
 echo "Init odoo File"
 echo "==========================="
 cd /etc/init.d/
-wget https://raw.github.com/gabrielbr17/Others/master/odoo-server -O odoo-server
-chmod 755 /etc/init.d/odoo-server
-chown root: /etc/init.d/odoo-server
+wget https://raw.githubusercontent.com/odoo/odoo/10.0/debian/init -O odoo-server
+sudo chmod 755 /etc/init.d/odoo-server
+sudo chown root: /etc/init.d/odoo-server
 
 ##### Clonando repositorias da localizacao brasileira #####
 ##### e as dependencias necessarias. #####
@@ -208,13 +220,14 @@ sudo apt-get install python-libxml2 -y
 sudo apt-get install libxmlsec1-dev -y
 sudo apt-get install python-openssl -y
 sudo apt-get install python-cffi -y
-cd /opt/odoo
+sudo su - odoo -s /bin/bash
 mkdir localizacao
 cd localizacao
-git clone https://github.com/odoo-brazil/l10n-brazil.git --branch 8.0
-git clone https://github.com/odoo-brazil/account-fiscal-rule.git --branch 8.0.2.0
-git clone https://github.com/odoo-brazil/odoo-brazil-eletronic-documents.git --branch 8.0
-git clone https://github.com/OCA/server-tools --branch 10.0
+git clone https://github.com/OCA/l10n-brazil.git --branch 10.0 --depth 1
+git clone https://github.com/OCA/account-fiscal-rule.git --branch 10.0 --depth 1
+git clone https://github.com/odoo-brazil/odoo-brazil-eletronic-documents.git --branch 8.0 --depth 1
+git clone https://github.com/OCA/server-tools --branch 10.0 --depth 1
+exit
 
 ##### Instalando Geraldo reports, utilizado para relatorios. #####
 
