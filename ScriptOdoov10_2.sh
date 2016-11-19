@@ -1,5 +1,17 @@
 ##### Início do Script 2 #####
 
+##### Realizando o clone do arquivo de configuracao, #####
+##### esta com as configuracoes padr?es. #####
+
+echo "==========================="
+echo "Config odoo File"
+echo "==========================="
+sudo cp /opt/odoo/debian/odoo.conf /etc/odoo-server.conf
+cd /etc/
+sudo wget https://raw.githubusercontent.com/brennocg/odoo/master/odoo-server.conf -O odoo-server.conf
+sudo chown odoo: /etc/odoo-server.conf
+sudo chmod 640 /etc/odoo-server.conf
+
 ##### Criando diretorio para Log da aplicacao. #####
 
 echo "==========================="
