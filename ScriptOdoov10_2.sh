@@ -6,7 +6,7 @@
 echo "==========================="
 echo "Config odoo File"
 echo "==========================="
-sudo cp /opt/odoo/debian/odoo.conf /etc/odoo-server.conf
+sudo cp /opt/odoo/odoo/debian/odoo.conf /etc/odoo-server.conf
 cd /etc/
 sudo wget https://raw.githubusercontent.com/brennocg/odoo/master/odoo-server.conf -O odoo-server.conf
 sudo chown odoo: /etc/odoo-server.conf
