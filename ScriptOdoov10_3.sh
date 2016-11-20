@@ -56,6 +56,12 @@ echo "==========================="
 cd /opt/
 chown odoo: odoo -R
 
+##### Arquivo de COnfiguração #####
+cd /opt/odoo/odoo/
+sudo wget https://raw.githubusercontent.com/Trust-Code/Tutorial-Instalacao/master/Odoo-config
+
+
+
 ##### Fim do Script 3. #####
 
 echo "==========================="
